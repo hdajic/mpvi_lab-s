@@ -1,6 +1,10 @@
+#python3
+
 import os
 import time
 import numpy as np
+#from sklearn import svm2
+#import svm
 
 
 #Library for plotting the output and saving it to file
@@ -16,7 +20,9 @@ className = ['plane', 'car', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'shi
 
 (xTrain, yTrain), (xTest, yTest) = cifar10.load_data()
 
-#print(xTrain)
+#print(dir(xTrain))
+
+#print(xTest.nbytes)
 
 #print(type(xTrain)) #ndarray [n dimensional array]
 
@@ -50,4 +56,32 @@ yTrain = np.squeeze(yTrain[:49000, :])
 yTest = np.squeeze(yTest)
 xTest = xTest.astype(np.float)
 
-print(xVal.size)
+
+
+print("haris ", xTrain.nbytes)
+print(xTrain.shape)
+
+meanImage = np.mean(xTrain, axis = 0)
+xTrain -= meanImage
+xVal -= meanImage
+xTest -= meanImage
+
+
+xTrain = np.reshape(xTrain, (xTrain.shape[0], -1))
+xVal = np.reshape(xVal, (xVal.shape[0], -1))
+xTest = np.reshape(xTest, (xTest.shape[0], -1))
+
+xTrain = np.hstack([xTrain, np.ones((xTrain.shape[0], 1))])
+xVal = np.hstack([xVal, np.ones((xVal.shape[0], 1))])
+xTest = np.hstack([xTest, np.ones((xTest.shape[0], 1))])
+
+#print(xVal.size)
+#print(xTrain)
+
+#numClasses = np.max(yTrain) + 1
+
+#classifier = svm.svm(xTrain.shape[1], numClasses)
+
+#if classifier.W is not None:
+#    tmpW = classifier.W[:-1, :]
+#    tmpW = tmpW.reshape(32, 32, 3, 10)
